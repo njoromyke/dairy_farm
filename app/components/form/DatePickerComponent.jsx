@@ -35,7 +35,6 @@ export default function DatePickerComponent({ label, mt, mb }) {
           testID="dateTimePicker"
           value={date}
           mode={mode}
-          minimumDate={new Date(2021, 1, 1)}
           display="default"
           onChange={onChange}
           maximumDate={new Date()}

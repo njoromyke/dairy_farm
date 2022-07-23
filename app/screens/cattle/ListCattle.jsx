@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Appbar, List, useTheme } from "react-native-paper";
+import { Appbar, Divider, List, useTheme } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import FABComponent from "../../components/FAB";
 import { collection, getDocs } from "firebase/firestore";
@@ -23,12 +23,16 @@ const ListCattle = () => {
       setCows(
         c.docs
           .map((doc) => ({ ...doc.data(), id: doc.id }))
-          .filter((c) => c.user.id === user.uid)
+          .filter((c) => c.user.uid === user.uid)
       );
     } catch (error) {
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    fetchCows();
+  }, []);
 
   return (
     <SafeAreaView
@@ -48,13 +52,17 @@ const ListCattle = () => {
       </Appbar>
       {cows.map((c) => {
         return (
-          <List.Item
-            title={c.name}
-            onPress={() => {
-              navigation.navigate("cattle", { id: c.id });
-            }}
-            left={() => <List.Icon icon="cow" />}
-          />
+          <>
+            <List.Item
+              title={c.name}
+              key={c.id}
+              onPress={() => {
+                navigation.navigate("cattle", { cow: c });
+              }}
+              left={() => <List.Icon icon="cow" />}
+            />
+            <Divider />
+          </>
         );
       })}
 

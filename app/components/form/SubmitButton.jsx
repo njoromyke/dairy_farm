@@ -30,5 +30,3 @@ const SubmitButton = ({
 };
 
 export default SubmitButton;
-
-const styles = StyleSheet.create({});
