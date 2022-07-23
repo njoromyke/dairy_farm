@@ -5,6 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ListCattle from "../screens/cattle/ListCattle";
 import ListMilk from "../screens/milk/ListMilk";
 import ListReport from "../screens/reports/ListReport";
+import AddCattle from "../screens/cattle/AddCattle";
 
 const Stack = createNativeStackNavigator();
 const FeedNav = () => {
@@ -20,6 +21,11 @@ const FeedNav = () => {
           name="cattle"
           options={{ headerShown: false }}
           component={ListCattle}
+        />
+        <Stack.Screen
+          name="cattle-add"
+          options={{ headerShown: false }}
+          component={AddCattle}
         />
         <Stack.Screen
           name="milk"
