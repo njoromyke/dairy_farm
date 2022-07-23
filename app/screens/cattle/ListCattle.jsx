@@ -54,10 +54,11 @@ const ListCattle = () => {
         return (
           <>
             <List.Item
-              title={c.name}
+              description={c.name}
+              title={c.tagNo}
               key={c.id}
               onPress={() => {
-                navigation.navigate("cattle", { cow: c });
+                navigation.navigate("view-cattle", { cow: c });
               }}
               left={() => <List.Icon icon="cow" />}
             />
