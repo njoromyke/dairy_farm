@@ -1,9 +1,9 @@
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MyTabs from "./TabNav";
 import LoginScreen from "../screens/auth/LoginScreen";
 import SignUpScreen from "../screens/auth/SignUpScreen";
+import FeedNav from "./FeedNav";
 
 const Stack = createNativeStackNavigator();
 const AuthNav = () => {
@@ -23,7 +23,7 @@ const AuthNav = () => {
         <Stack.Screen
           name="home"
           options={{ headerShown: false }}
-          component={MyTabs}
+          component={FeedNav}
         />
       </Stack.Navigator>
     </SafeAreaProvider>

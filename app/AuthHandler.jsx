@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import AuthNav from "../navigation/AuthNav";
 import { getAuth } from "firebase/auth";
-import Loader from "./loader/Loader";
-import { useUserAuth } from "../context/UserAuthContext";
+import React, { useEffect, useState } from "react";
+import Loader from "./components/loader/Loader";
+import { useUserAuth } from "./context/UserAutContext";
+import AuthNav from "./navigator/AuthNav";
 import FeedNav from "./navigator/FeedNav";
 
 const AuthHandler = () => {

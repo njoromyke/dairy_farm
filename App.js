@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { darkmodeTheme, theme } from "./app/config/theme";
+import { registerRootComponent } from "expo";
+import AuthHandler from "./app/AuthHandler";
+import { UserAuthContextProvider } from "./app/context/UserAutContext";
 
 export default function App() {
+  const scheme = useColorScheme();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <PaperProvider theme={scheme === "light" ? theme : darkmodeTheme}>
       <StatusBar style="auto" />
-    </View>
+      <UserAuthContextProvider>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: theme.colors.background,
+          }}
+        >
+          <NavigationContainer>
+            <AuthHandler />
+          </NavigationContainer>
+        </SafeAreaView>
+      </UserAuthContextProvider>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+registerRootComponent(App);
