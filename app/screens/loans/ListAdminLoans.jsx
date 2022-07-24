@@ -30,8 +30,7 @@ const ListAdminLoans = () => {
     fetchloans();
   }, []);
 
-  console.log(loans);
-
+  const totalAmountIssued = loans.reduce((acc, curr) => acc + curr.amount, 0);
   return (
     <SafeAreaView
       style={{
@@ -93,6 +92,34 @@ const ListAdminLoans = () => {
           </>
         );
       })}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          backgroundColor: colors.primary,
+          padding: 10,
+          marginTop: 10,
+        }}
+      >
+        <Text
+          style={{
+            color: colors.background,
+            fontSize: 20,
+          }}
+        >
+          Total Amount Issued
+        </Text>
+        <Text
+          style={{
+            color: colors.background,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          {totalAmountIssued}
+        </Text>
+      </View>
 
       <FABComponent
         buttons={[

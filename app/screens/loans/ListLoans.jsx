@@ -7,6 +7,7 @@ import FABComponent from "../../components/FAB";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useUserAuth } from "../../context/UserAutContext";
+import Loader from "../../components/loader/Loader";
 
 const ListLoans = () => {
   const { colors } = useTheme();
@@ -19,14 +20,17 @@ const ListLoans = () => {
   const fetchloans = async () => {
     setLoading;
     try {
+      setLoading(true);
       const c = await getDocs(loansRef);
       setLoans(
         c.docs
           .map((doc) => ({ ...doc.data(), id: doc.id }))
           .filter((c) => c.user.uid === user.uid)
       );
+      setLoading(false);
     } catch (error) {
       alert(error.message);
+      setLoading(false);
     }
   };
 
@@ -34,7 +38,7 @@ const ListLoans = () => {
     fetchloans();
   }, []);
 
-  console.log(loans);
+  const totalAmountTaken = loans.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
     <SafeAreaView
@@ -52,6 +56,7 @@ const ListLoans = () => {
           title="Loans"
         />
       </Appbar>
+      {loading && <Loader />}
       {loans.map((c) => {
         return (
           <>
@@ -97,6 +102,35 @@ const ListLoans = () => {
           </>
         );
       })}
+
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          backgroundColor: colors.primary,
+          padding: 10,
+          marginTop: 10,
+        }}
+      >
+        <Text
+          style={{
+            color: colors.background,
+            fontSize: 20,
+          }}
+        >
+          Total Amount Taken
+        </Text>
+        <Text
+          style={{
+            color: colors.background,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          {totalAmountTaken}
+        </Text>
+      </View>
 
       <FABComponent
         buttons={[

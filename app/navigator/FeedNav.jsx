@@ -11,6 +11,7 @@ import ListLoans from "../screens/loans/ListLoans";
 import RequestLoan from "../screens/loans/RequestLoan";
 import ViewLoan from "../screens/loans/ViewLoan";
 import ListAdminLoans from "../screens/loans/ListAdminLoans";
+import EditLoan from "../screens/loans/EditLoan";
 
 const Stack = createNativeStackNavigator();
 const FeedNav = () => {
@@ -66,6 +67,11 @@ const FeedNav = () => {
           name="loans"
           options={{ headerShown: false }}
           component={ListAdminLoans}
+        />
+        <Stack.Screen
+          name="loan-edit"
+          options={{ headerShown: false }}
+          component={EditLoan}
         />
       </Stack.Navigator>
     </SafeAreaProvider>

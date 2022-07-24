@@ -59,12 +59,13 @@ const RequestLoan = () => {
         uid: user.uid,
         email: user.email,
       },
+      paidOn: null,
     };
 
     setLoading(true);
     try {
       await addDoc(loansRef, loan);
-      navigation.goBack();
+      navigation.navigate("loan");
       setLoading(false);
     } catch (error) {
       console.log(error);

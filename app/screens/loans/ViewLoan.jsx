@@ -4,9 +4,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Card, Title, useTheme } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CardContetText from "../../components/card-display/CardContetText";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useUserAuth } from "../../context/UserAutContext";
+import CustomModal from "../../components/form/CustomModal";
+import Check from "../../components/form/Check";
+import Form from "../../components/form/Form";
+import SubmitButton from "../../components/form/SubmitButton";
+import moment from "moment";
 
 const ViewLoan = () => {
   const { colors } = useTheme();
@@ -14,6 +26,7 @@ const ViewLoan = () => {
   const route = useRoute();
   const usersRef = collection(db, "users");
   const [users, setUsers] = useState([]);
+  const [visibleModal, setVisibleModal] = useState(false);
   const loan = route.params.loan;
   const { user } = useUserAuth();
 
@@ -46,10 +59,30 @@ const ViewLoan = () => {
   }, [user]);
 
   const userLogged = Object.assign({}, users);
-  console.log(userLogged);
+  console.log(loan);
 
-  const handleEdit = async () => {
-    
+  const handleEdit = async ({ isPaid, isApproved }) => {
+    const loansDoc = doc(db, "loans", loan.id);
+    try {
+      await updateDoc(loansDoc, {
+        isPaid,
+        isApproved,
+        paidOn: isPaid ? moment().format("YYYY-MM-DD") : null,
+      });
+
+      handleClose();
+      navigation.navigate("loans");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleShowModal = () => {
+    setVisibleModal(true);
+  };
+
+  const handleClose = () => {
+    setVisibleModal(false);
   };
 
   return (
@@ -62,7 +95,7 @@ const ViewLoan = () => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="View Loan" />
         {userLogged && userLogged[0]?.isAdmin && (
-          <Appbar.Action icon="pencil" onPress={() => handleEdit(loan.id)} />
+          <Appbar.Action icon="pencil" onPress={() => handleShowModal()} />
         )}
 
         <Appbar.Action
@@ -87,6 +120,35 @@ const ViewLoan = () => {
           }
         />
       </Appbar>
+      {visibleModal && (
+        <CustomModal showModal={handleEdit} hideModal={handleClose}>
+          <View
+            style={{
+              flex: 1,
+              padding: 10,
+              marginBottom: 10,
+              justifyContent: "center",
+            }}
+          >
+            <Form
+              onSubmit={handleEdit}
+              initialValues={{
+                isApproved: loan.isApproved,
+                isPaid: loan.isPaid,
+              }}
+            >
+              <Check label={"isApproved"} title="Approve" />
+              <Check label={"isPaid"} title="Mark as Paid" />
+              <SubmitButton
+                value="Submit"
+                textColor={colors.background}
+                color={colors.primary}
+              />
+            </Form>
+          </View>
+        </CustomModal>
+      )}
+
       <ScrollView>
         <View style={{ flex: 1, padding: 10, marginBottom: 10 }}>
           <Card>
@@ -121,25 +183,7 @@ const ViewLoan = () => {
             <CardContetText name={"Id Number"} title={loan.idNumber} />
             <CardContetText
               name={"Approval Status"}
-              title={
-                loan.approvalStatus ? (
-                  <Text
-                    style={{
-                      colo: colors.primary,
-                    }}
-                  >
-                    Approved
-                  </Text>
-                ) : (
-                  <Text
-                    style={{
-                      colo: colors.notification,
-                    }}
-                  >
-                    Not Approved
-                  </Text>
-                )
-              }
+              title={loan.isApproved ? "Approved" : "Not Approved"}
             />
             <CardContetText
               name={"Payment Status"}
