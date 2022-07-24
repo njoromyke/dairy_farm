@@ -14,6 +14,8 @@ import ListAdminLoans from "../screens/loans/ListAdminLoans";
 import EditLoan from "../screens/loans/EditLoan";
 import AddMilk from "../screens/milk/AddMilk";
 import ViewMilk from "../screens/milk/ViewMilk";
+import Profile from "../screens/users/Profile";
+import UserList from "../screens/users/UserList";
 
 const Stack = createNativeStackNavigator();
 const FeedNav = () => {
@@ -81,9 +83,14 @@ const FeedNav = () => {
           component={ListAdminLoans}
         />
         <Stack.Screen
-          name="loan-edit"
+          name="users"
           options={{ headerShown: false }}
-          component={EditLoan}
+          component={UserList}
+        />
+        <Stack.Screen
+          name="profile"
+          options={{ headerShown: false }}
+          component={Profile}
         />
       </Stack.Navigator>
     </SafeAreaProvider>

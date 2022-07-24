@@ -1,6 +1,10 @@
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import React, { useEffect } from "react";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  Entypo,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import { useUserAuth } from "../context/UserAutContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, useTheme } from "react-native-paper";
@@ -67,6 +71,15 @@ const HomeScreen = () => {
     },
     {
       icon: (
+        <FontAwesome5 name="user-check" size={100} color={colors.primary} />
+      ),
+      title: "Profile",
+      onPress: () => {
+        navigation.navigate("profile");
+      },
+    },
+    {
+      icon: (
         <MaterialCommunityIcons
           name="cash-fast"
           size={100}
@@ -93,6 +106,14 @@ const HomeScreen = () => {
           navigation.navigate("loans");
         },
       },
+    userLogged &&
+      userLogged[0]?.isAdmin && {
+        icon: <FontAwesome5 name="users" size={100} color={colors.primary} />,
+        title: "Users",
+        onPress: () => {
+          navigation.navigate("users");
+        },
+      },
   ];
 
   return (
@@ -106,7 +127,7 @@ const HomeScreen = () => {
           style={{
             alignItems: "center",
           }}
-          title="My Cattle Manager"
+          title="E-Milk"
         />
       </Appbar>
       <View
