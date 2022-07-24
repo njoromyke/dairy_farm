@@ -45,8 +45,6 @@ const ViewMilk = () => {
     fetchUsers();
   }, [user]);
 
-  console.log(milk);
-
   return (
     <SafeAreaView
       style={{

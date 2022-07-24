@@ -35,9 +35,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [user]);
-
-  const userLogged = Object.assign({}, users);
+  }, []);
 
   const items = [
     {
@@ -92,28 +90,31 @@ const HomeScreen = () => {
       },
     },
 
-    userLogged &&
-      userLogged[0]?.isAdmin && {
-        icon: (
-          <MaterialCommunityIcons
-            name="cash-fast"
-            size={100}
-            color={colors.primary}
-          />
-        ),
-        title: "Admin Loans",
-        onPress: () => {
-          navigation.navigate("loans");
-        },
-      },
-    userLogged &&
-      userLogged[0]?.isAdmin && {
-        icon: <FontAwesome5 name="users" size={100} color={colors.primary} />,
-        title: "Users",
-        onPress: () => {
-          navigation.navigate("users");
-        },
-      },
+    users && users.length > 0 && users[0]?.isAdmin
+      ? {
+          icon: (
+            <MaterialCommunityIcons
+              name="cash-fast"
+              size={100}
+              color={colors.primary}
+            />
+          ),
+          title: "Admin Loans",
+          onPress: () => {
+            navigation.navigate("loans");
+          },
+        }
+      : null,
+
+    users && users.length > 0 && users[0]?.isAdmin
+      ? {
+          icon: <FontAwesome5 name="users" size={100} color={colors.primary} />,
+          title: "Users",
+          onPress: () => {
+            navigation.navigate("users");
+          },
+        }
+      : null,
   ];
 
   return (

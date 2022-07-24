@@ -38,8 +38,6 @@ const UserList = () => {
     fetchUsers();
   }, []);
 
-  console.log(users);
-
   return (
     <SafeAreaView
       style={{

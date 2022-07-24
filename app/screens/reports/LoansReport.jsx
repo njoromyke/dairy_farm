@@ -45,7 +45,6 @@ const LoansReport = () => {
   const unpaidLoansTaken = loans
     .filter((c) => c.isPaid === false)
     .reduce((acc, curr) => acc + curr.amount, 0);
-  console.log(unpaidLoansTaken);
 
   return (
     <SafeAreaView
