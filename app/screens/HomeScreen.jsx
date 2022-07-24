@@ -42,6 +42,19 @@ const HomeScreen = () => {
         navigation.navigate("reports");
       },
     },
+    {
+      icon: (
+        <MaterialCommunityIcons
+          name="cash-fast"
+          size={100}
+          color={colors.primary}
+        />
+      ),
+      title: "Loans",
+      onPress: () => {
+        navigation.navigate("loan");
+      },
+    },
   ];
 
   return (

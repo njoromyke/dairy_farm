@@ -5,12 +5,12 @@ import { HelperText, TextInput } from "react-native-paper";
 import { useFormikContext } from "formik";
 import moment from "moment";
 
-export default function DatePickerComponent({ label, mt, mb }) {
+export default function DatePickerComponent({ label, mt, mb, disabled }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
-  const { errors, setFieldValue, touched } = useFormikContext();
+  const { errors, setFieldValue, touched, values } = useFormikContext();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -33,7 +33,7 @@ export default function DatePickerComponent({ label, mt, mb }) {
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date}
+          value={values[label] || date}
           mode={mode}
           display="default"
           onChange={onChange}
@@ -45,8 +45,15 @@ export default function DatePickerComponent({ label, mt, mb }) {
         value={moment(date).format("MM/DD/YYYY")}
         label={label}
         mode="outlined"
+        disabled={disabled}
         style={{ marginTop: mt, marginBottom: mb }}
-        right={<TextInput.Icon onPress={showDatepicker} name="calendar" />}
+        right={
+          <TextInput.Icon
+            onPress={showDatepicker}
+            disabled={disabled}
+            name="calendar"
+          />
+        }
       />
       {errors[label] && touched[label] && (
         <HelperText type="error" visible={true}>

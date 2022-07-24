@@ -7,6 +7,9 @@ import ListMilk from "../screens/milk/ListMilk";
 import ListReport from "../screens/reports/ListReport";
 import AddCattle from "../screens/cattle/AddCattle";
 import ViewCow from "../screens/cattle/ViewCow";
+import ListLoans from "../screens/loans/ListLoans";
+import RequestLoan from "../screens/loans/RequestLoan";
+import ViewLoan from "../screens/loans/ViewLoan";
 
 const Stack = createNativeStackNavigator();
 const FeedNav = () => {
@@ -42,6 +45,21 @@ const FeedNav = () => {
           name="reports"
           options={{ headerShown: false }}
           component={ListReport}
+        />
+        <Stack.Screen
+          name="loan"
+          options={{ headerShown: false }}
+          component={ListLoans}
+        />
+        <Stack.Screen
+          name="loan-request"
+          options={{ headerShown: false }}
+          component={RequestLoan}
+        />
+        <Stack.Screen
+          name="loan-view"
+          options={{ headerShown: false }}
+          component={ViewLoan}
         />
       </Stack.Navigator>
     </SafeAreaProvider>
