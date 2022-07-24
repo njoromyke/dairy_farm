@@ -17,7 +17,7 @@ const ListCattle = () => {
   const { user } = useUserAuth();
 
   const fetchCows = async () => {
-    setLoading;
+    setLoading(true);
     try {
       const c = await getDocs(cowsRef);
       setCows(
@@ -56,7 +56,7 @@ const ListCattle = () => {
             <List.Item
               description={c.name}
               title={c.tagNo}
-              key={c.id}
+              key={c.name}
               onPress={() => {
                 navigation.navigate("view-cattle", { cow: c });
               }}

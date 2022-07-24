@@ -19,10 +19,6 @@ export const breeds = [
     label: "Lancashire",
     value: "Lancashire",
   },
-  {
-    label: "Lincolnshire",
-    value: "Lincolnshire",
-  },
 ];
 
 export const gender = [

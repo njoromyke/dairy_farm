@@ -1,11 +1,17 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import TopBar from "../../navigator/TopBar";
 
 const ListReport = () => {
   return (
-    <View>
-      <Text>ListReport</Text>
-    </View>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <TopBar />
+    </SafeAreaView>
   );
 };
 
