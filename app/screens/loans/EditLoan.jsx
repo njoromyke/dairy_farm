@@ -12,11 +12,9 @@ const EditLoan = () => {
   const route = useRoute();
   const loan = route.params.loan;
   const navigation = useNavigation();
-  console.log(loan);
   const { colors } = useTheme();
 
   const handleSumbit = async (values) => {
-    console.log(values);
   };
 
   return (

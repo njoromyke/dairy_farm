@@ -12,6 +12,8 @@ import RequestLoan from "../screens/loans/RequestLoan";
 import ViewLoan from "../screens/loans/ViewLoan";
 import ListAdminLoans from "../screens/loans/ListAdminLoans";
 import EditLoan from "../screens/loans/EditLoan";
+import AddMilk from "../screens/milk/AddMilk";
+import ViewMilk from "../screens/milk/ViewMilk";
 
 const Stack = createNativeStackNavigator();
 const FeedNav = () => {
@@ -42,6 +44,16 @@ const FeedNav = () => {
           name="milk"
           options={{ headerShown: false }}
           component={ListMilk}
+        />
+        <Stack.Screen
+          name="milk-add"
+          options={{ headerShown: false }}
+          component={AddMilk}
+        />
+        <Stack.Screen
+          name="view-milk"
+          options={{ headerShown: false }}
+          component={ViewMilk}
         />
         <Stack.Screen
           name="reports"

@@ -32,7 +32,7 @@ const ListCattle = () => {
 
   useEffect(() => {
     fetchCows();
-  }, [user]);
+  }, []);
 
   return (
     <SafeAreaView

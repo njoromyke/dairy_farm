@@ -59,7 +59,6 @@ const ViewLoan = () => {
   }, [user]);
 
   const userLogged = Object.assign({}, users);
-  console.log(loan);
 
   const handleEdit = async ({ isPaid, isApproved }) => {
     const loansDoc = doc(db, "loans", loan.id);
