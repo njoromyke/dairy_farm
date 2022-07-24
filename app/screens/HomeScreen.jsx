@@ -1,16 +1,39 @@
 import { FlatList, ScrollView, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { useUserAuth } from "../context/UserAutContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, useTheme } from "react-native-paper";
 import CardDisplay from "../components/card-display/CardDisplay";
 import { useNavigation } from "@react-navigation/native";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const HomeScreen = () => {
   const { user } = useUserAuth();
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const usersRef = collection(db, "users");
+  const [users, setUsers] = React.useState([]);
+
+  const fetchUsers = async () => {
+    try {
+      const u = await getDocs(usersRef);
+      setUsers(
+        u.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+          .filter((u) => u.id === user.uid)
+      );
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [user]);
+
+  const userLogged = Object.assign({}, users);
 
   const items = [
     {
@@ -55,6 +78,21 @@ const HomeScreen = () => {
         navigation.navigate("loan");
       },
     },
+
+    userLogged &&
+      userLogged[0]?.isAdmin && {
+        icon: (
+          <MaterialCommunityIcons
+            name="cash-fast"
+            size={100}
+            color={colors.primary}
+          />
+        ),
+        title: "Admin Loans",
+        onPress: () => {
+          navigation.navigate("loans");
+        },
+      },
   ];
 
   return (
@@ -79,7 +117,7 @@ const HomeScreen = () => {
         <FlatList
           data={items}
           numColumns={2}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => index}
           renderItem={({ item }) => (
             <CardDisplay
               icon={item.icon}

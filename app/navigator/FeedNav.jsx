@@ -10,6 +10,7 @@ import ViewCow from "../screens/cattle/ViewCow";
 import ListLoans from "../screens/loans/ListLoans";
 import RequestLoan from "../screens/loans/RequestLoan";
 import ViewLoan from "../screens/loans/ViewLoan";
+import ListAdminLoans from "../screens/loans/ListAdminLoans";
 
 const Stack = createNativeStackNavigator();
 const FeedNav = () => {
@@ -60,6 +61,11 @@ const FeedNav = () => {
           name="loan-view"
           options={{ headerShown: false }}
           component={ViewLoan}
+        />
+        <Stack.Screen
+          name="loans"
+          options={{ headerShown: false }}
+          component={ListAdminLoans}
         />
       </Stack.Navigator>
     </SafeAreaProvider>

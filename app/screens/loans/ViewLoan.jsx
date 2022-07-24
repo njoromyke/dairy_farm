@@ -1,18 +1,21 @@
 import { View, Text, Image, ScrollView, Alert } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Appbar, Card, Title, useTheme } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CardContetText from "../../components/card-display/CardContetText";
-import { deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { useUserAuth } from "../../context/UserAutContext";
 
 const ViewLoan = () => {
   const { colors } = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
-
+  const usersRef = collection(db, "users");
+  const [users, setUsers] = useState([]);
   const loan = route.params.loan;
+  const { user } = useUserAuth();
 
   const handleDelete = async (id) => {
     const dc = doc(db, "loans", id);
@@ -25,7 +28,29 @@ const ViewLoan = () => {
     }
   };
 
-  console.log(loan);
+  const fetchUsers = async () => {
+    try {
+      const u = await getDocs(usersRef);
+      setUsers(
+        u.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+          .filter((u) => u.id === user.uid)
+      );
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [user]);
+
+  const userLogged = Object.assign({}, users);
+  console.log(userLogged);
+
+  const handleEdit = async () => {
+    
+  };
 
   return (
     <SafeAreaView
@@ -36,6 +61,10 @@ const ViewLoan = () => {
       <Appbar>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="View Loan" />
+        {userLogged && userLogged[0]?.isAdmin && (
+          <Appbar.Action icon="pencil" onPress={() => handleEdit(loan.id)} />
+        )}
+
         <Appbar.Action
           icon="delete"
           onPress={() =>
